@@ -31,7 +31,7 @@ app.get('/', function(request, response) {
 
 
 // Route to create an entry when the user submits their form.
-app.post('/submit', function(request, response) {
+app.post('/contactSubmit', function(request, response) {
   response.send('POST request to show you submitted information');
 });
 
