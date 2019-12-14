@@ -1,0 +1,19 @@
+{
+  "name": "individual_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "errorhandler": "^1.5.1",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
