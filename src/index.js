@@ -9,11 +9,6 @@ let app = express();
 app.use(express.json()); // so we can read JSON sent in req.body
 app.use(router); // this is just applying our router as middleware
 
-// DEFAULT ERROR HANDLER
-app.use(function (req, res, next, error) {
-
-});
-
 // LISTEN ON PORT
 let port = 3000;
 app.listen(port, () => {
@@ -66,4 +61,10 @@ app.post('/login', function(request, response) {
 
 app.get('/list', function( request, response){
   response.send(request.params.user);
+});
+
+
+// DEFAULT ERROR HANDLER
+app.use(function (req, res, next, error) {
+
 });
