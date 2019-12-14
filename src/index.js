@@ -25,6 +25,7 @@ app.listen(port, () => {
  * proper HTTP status code should show
  */
 app.get('/', function(request, response) {
+  req.body
   response.send('GET request to the homepage');
 });
 
