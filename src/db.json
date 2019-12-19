@@ -1,1 +1,8 @@
-[]
+{ "contacts":
+    [
+        {"name": "Erin",
+        "email": "erincameron11@hotmail.com",
+        "phone": "6476693771"
+        }
+    ]
+}
