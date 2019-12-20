@@ -1,4 +1,76 @@
-{
-  "Erin": "erincameron11@hotmail.com 6476693771",
-  "Trevor": "trevorcameron@gmail.com 4168037869"
-}
+[
+  {
+    "name": "Erin",
+    "email": "erincameron11@hotmail.com",
+    "phone": 6476693771
+  },
+  {
+    "name": "Cathy",
+    "email": "ccfraser@rogers.com",
+    "phone": 4166693332
+  },
+  {
+    "name": "Fraser",
+    "email": "ccfraser@rogers.com",
+    "phone": 4164567939
+  },
+  {
+    "user": "Erin",
+    "password": "eec"
+  },
+  {
+    "user": "Erin",
+    "password": "eec"
+  },
+  {
+    "user": "Erin",
+    "password": "eec"
+  },
+  {
+    "user": "Erin",
+    "password": "eec"
+  },
+  {
+    "user": "Erin",
+    "password": "eec"
+  },
+  {
+    "user": "Erin",
+    "password": "eec"
+  },
+  {
+    "user": "Erin",
+    "password": "eec"
+  },
+  {
+    "name": "blah",
+    "email": "blahblah",
+    "phone": 3424324242
+  },
+  {
+    "user": "boo",
+    "password": "ererere"
+  },
+  {
+    "user": "boo",
+    "password": "ererere"
+  },
+  {
+    "user": "lr",
+    "password": "gfgffg"
+  },
+  {
+    "user": "poopoo",
+    "password": "erwerw"
+  },
+  {
+    "name": "bumbum",
+    "email": "erere",
+    "phone": 24242342
+  },
+  {
+    "name": "4",
+    "email": "5",
+    "phone": 6
+  }
+]
