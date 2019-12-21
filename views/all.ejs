@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Contact Us Form</title>
+</head>
+<body>
+    <h1 style="text-align: center; font-family: Arial, Helvetica, sans-serif;">List of Contacts</h1><br>
+    <div style="border: solid teal 2px; border-radius: 5px; padding: 20px; font-family: Arial, Helvetica, sans-serif; text-align: center;">
+        <p>All contacts who have submitted a form:</p>
+        <ul style="list-style: none;">
+            <li><%-JSON.stringify(data.allContacts)%></li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,8 +1,187 @@
-{ "contacts":
-    [
-        {"name": "Erin",
-        "email": "erincameron11@hotmail.com",
-        "phone": "6476693771"
-        }
-    ]
-}
+[
+  {
+    "name": "Erin",
+    "email": "erincameron11@hotmail.com",
+    "phone": 6476693771
+  },
+  {
+    "name": "Laura",
+    "email": "laurarichards@hotmail.com",
+    "phone": 4167839466
+  },
+  {
+    "name": "Cathy",
+    "email": "ccfraser@sympatico.ca",
+    "phone": 9056687253
+  },
+  {
+    "name": "Fraser",
+    "email": "bossman@gmail.com",
+    "phone": 4165536475
+  },
+  {
+    "name": "Deanna",
+    "email": "drichards45@hotmail.com",
+    "phone": 9054467632
+  },
+  {
+    "user": "erincameron11",
+    "password": "password"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234234
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234234
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234234
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234234
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234234
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234234
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234234
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234234
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234234
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234234
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234234
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "user": "erin",
+    "password": "dongaray"
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234234
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234234
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234234
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234
+  },
+  {
+    "name": "ergd",
+    "email": "ertert",
+    "phone": 24234
+  }
+]

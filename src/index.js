@@ -1,14 +1,40 @@
-"use strict";
+// from video: https://www.youtube.com/watch?v=6iZiqQZBQJY
 
-let express = require('express');
-let router = require('./router');
+// AUTHENTICATION
+//require('dotenv').config({client: 'pg'});
+const express = require('express');
+const app = express(); // Create the app
+const fs = require('fs'); // File System for loading the list of contacts
+const session = require('express-session');
+const server = express();
+
+app.set('view engine', 'ejs');
+
+// AUTHENTICATION
+// const KnexSessionStore = require('connect-session-knex')(session);
+// const knex = require('knex');
+// const knexConfig = require('../fs1020-project/node_modules/knex/knex.js');
+// const db = knex(knexConfig);
 
 
-let app = express();
 
-// MIDDLEWARE
-app.use(express.json()); // so we can read JSON sent in req.body
-app.use(router); // this is just applying our router as middleware
+
+// CHECK FIRST TO SEE IF OUR DB EXISTS
+let contacts;
+let exists = fs.existsSync('src/db.json');
+if (exists) {
+  // Read the file
+  console.log('loading contacts');
+  let txt = fs.readFileSync('src/db.json', 'utf8');
+  // Parse it back to object
+  contacts = JSON.parse(txt);
+} else {
+  // Otherwise start with blank list
+  console.log('No contacts');
+  contacts = {};
+}
+
+
 
 // LISTEN ON PORT
 // since ports are not always constantly the same number, this is the proper way to set up a port
@@ -20,13 +46,18 @@ app.listen(port, () => {
 
 
 
-
-app.get('/add/:name/:email/:phone', function (request, response) {
-    response.send(db.json);
-    response.send(request.params.name + ' ' + request.params.email + ' ' + request.params.phone);
-  });
-  
-  
+// THIS IS THE AUTHENTICATION PORTION WE APPARENTLY NEED
+// server.use(session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: true,
+//     store: new KnexSessionStore({ knex: db }),
+//     cookie: {
+//       maxAge: 1200000, // 20 minutes
+//       httpOnly: true,
+//       secure: process.env.NODE_ENV === 'production',
+//     },
+//   }));
 
 
 
@@ -34,94 +65,104 @@ app.get('/add/:name/:email/:phone', function (request, response) {
  * submitted should be sent to JSON file, and when rejected
  * proper HTTP status code should show
  */
-app.get('/', function(request, response) {
-  response.send('GET request - Welcome to the homepage');
-});
 
+// ROUTE FOR THE HOMEPAGE
+app.get('/', function(req, res){
+    res.render('index');
+})
 
-// Route to create an entry when the user submits their form.
-app.post('/contact', function(request, response) {
-    let contacts = {
-
-    }
-});
-
-
-// app.get('/contact/:name', function (request, response) {
-//     let contacts = contact.find(c => c.name === parseInt(req.params.name));
-//     if (!contacts) response.status(404).send('The name was not found in our database');
-//     response.send(contacts);
-//   });   
-
-
-// app.get('/list', function (request, response) {
-//     req.body;
-//     response.send(request.params.contact);
-// });
-
-
-// app.post('/contact-submit/:name/:email/:phone', function(request, response) {
-//     response.send('Please submit contact information');
-//     response.send(JSON.stringify(request.params.username));
-//   response.send('POST request to show you submitted information');
-// });
-
-
-
-
-
-
-
-
-// Route to create or register a user.
-app.post('/new/:user', function(request, response) {
-  // function to allow user var/array to fill with new user info
-  let user = [];
-  let newUser;
-  if (newUser === '') {
-    response.send('Please enter all information!');
-  } else {
-    user.push(newUser);
-    response.send('You have created a New User!');
+// ROUTE TO CREATE AN ENTRY WHEN THE USER SUBMITS THEIR FORM (ADDING A NEW CONTACT WITH NAME, EMAIL AND PHONE)
+app.post('/user/:name/:email/:phone', addContact);
+// Handle that route
+function addContact(req, res){
+  let name = req.params.name;
+  let email = req.params.email;
+  let phone = Number(req.params.phone);
+//   res.render('user', {data: {user: req.params.name, user: req.params.email, user: req.params.phone}});
+  let id = ([contacts.length++]); // NEED TO FIX THIS
+  // Put it in the object
+  contacts[id] = {name, email, phone};
+  res.status(201);
+  res.render('user', {data: {name: name, email: email, phone: phone}});
+  // Let the request know it was sent properly
+  let reply = {
+    status: 'success',
+    name: name,
+    email: email,
+    phone: phone
   }
-  response.send('POST for a new user is complete. Your username and password have been saved.');
+  console.log('adding: ' + JSON.stringify(reply));
+  // Write a file each time we get a new contact
+  let json = JSON.stringify(contacts, null, 2);
+  fs.writeFile('src/db.json', json, 'utf8', finished);
+  function finished(err) {
+    console.log('Finished writing db.json');
+    // Don't send anything back until everything else is done
+    res.send(reply);
+  }
+}
+
+
+
+  // ROUTE TO CREATE OR REGISTER A USER
+  app.post('/id/:user/:password', function(req, res) {
+    let user = req.params.user;
+    let password = req.params.password;
+    let id = ([contacts.length++]);
+    // Put it in the object
+    contacts[id] = {user, password};
+    res.status(201);
+    res.render('id', {data: {user: user}});
+    let reply = {
+        status: 'success',
+        user: user,
+      }
+      console.log('adding: ' + (user + ' and super secret password'));
+      let json = JSON.stringify(contacts, null, 2);
+      fs.writeFile('src/db.json', json, 'utf8', finished);
+      function finished(err) {
+        console.log('Finished writing db.json with new user');
+        // Don't send anything back until everything else is done
+        res.send(reply);
+      }
+  });
+
+
+
+
+
+  // WORK ON THIS!!!!!     ROUTE TO LOG A REGISTERED USER IN TO CREATE A SESSION
+  app.post('/login', function (req, res) {
+    res.render('login', {data: {}});
 });
 
 
+  app.post('/login/:user/:password', function (req, res) {
+    let user = req.params.user;
+    let password = req.params.password;
+        if(user && password === contacts[user]) {
+        res.render('goodlogin');
+    } else {
+        res.render('faillogin');
+    }  
+res.render('login', {data: {user: contacts[user], password: contacts[password]}});
+  });
 
 
 
 
 
-// Route to log a registered user in to create a session.
-app.post('/login', function(request, response) {
-  response.send('POST request - you are logged in!');
+  // ROUTE TO GET A LISTING OF ALL SUBMISSIONS
+app.get('/allContacts', function (req, res) {
+    res.status(202);
+    res.render('all', {data: {allContacts: contacts}});
 });
-
-
-
-
-
-
-
-// Route to get a listing of all submissions.
-
-// app.get('/list', function(request, response) {
-//   let user = ['Erin', 'Laura', 'Heather', 'Stephanie'];
-//   response.send(user.join(", "));
-// });
-
-app.get('/list', function( request, response){
-  response.send(request.params.list);
-});
-
-
-
 
 
 
 
 // DEFAULT ERROR HANDLER
 app.use(function (req, res, next, error) {
-
+    console.error(err.stack);
+    res.status(500).send('Something broke!')
 });
