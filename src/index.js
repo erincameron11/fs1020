@@ -82,8 +82,8 @@ function addContact(req, res){
   let id = ([contacts.length++]); // NEED TO FIX THIS
   // Put it in the object
   contacts[id] = {name, email, phone};
-  res.status(201);
   res.render('user', {data: {name: name, email: email, phone: phone}});
+  res.status(201);
   // Let the request know it was sent properly
   let reply = {
     status: 'success',
@@ -97,9 +97,9 @@ function addContact(req, res){
   fs.writeFile('src/db.json', json, 'utf8', finished);
   function finished(err) {
     console.log('Finished writing db.json');
+    }
     // Don't send anything back until everything else is done
-    res.send(reply);
-  }
+    res.send(reply);  
 }
 
 
@@ -163,6 +163,5 @@ app.get('/allContacts', function (req, res) {
 
 // DEFAULT ERROR HANDLER
 app.use(function (req, res, next, error) {
-    console.error(err.stack);
-    res.status(500).send('Something broke!')
+    console.error(error.stack);
 });
