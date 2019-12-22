@@ -5,6 +5,10 @@ const express = require('express');
 const app = express();
 const fs = require('fs'); // File System for loading the list of contacts
 const defaultErrorHandler = require('./default-error-handler');
+const util = require('util');
+let path = require('path');
+
+
 
 app.use('/static', express.static('static'));
 const session = require('express-session');
@@ -57,6 +61,27 @@ app.get('/', function(req, res){
     res.render('index');
 })
 
+
+// // Promises
+// let readFile = util.promisify(fs.readFile);
+// let writeFile = util.promisify(fs.writeFile);
+
+// let dbPath = path.resolve('src/db.json');
+
+// // READ
+// async function read() {
+//     let json = await readFile(dbPath);
+//     return JSON.parse(json);
+//   }
+
+// // WRITE
+//   async function write(dbItems) {
+//     let json = JSON.stringify(dbItems, null, 2); // the parameters for `null` and `2` are so it's formatted with 2 spaces of indentation
+//     await writeFile(dbPath, json);
+//   }
+
+
+
 // ROUTE TO CREATE AN ENTRY WHEN THE USER SUBMITS THEIR FORM (ADDING A NEW CONTACT WITH NAME, EMAIL AND PHONE)
 app.post('/user/:name/:email/:phone', addContact);
 // Handle that route
@@ -103,8 +128,7 @@ function addContact(req, res){
 
 
 
-
-  // WORK ON THIS!!!!!     ROUTE TO LOG A REGISTERED USER IN TO CREATE A SESSION
+  // WORK ON THIS!!!!! ROUTE TO LOG A REGISTERED USER IN TO CREATE A SESSION
   app.post('/login', function (req, res) {
     res.render('login');
 });
@@ -113,19 +137,31 @@ function addContact(req, res){
   app.post('/login/:user/:password', function (req, res) {
     let user = req.params.user;
     let password = req.params.password;
-        if(user && password === contacts.user) {
+        if (user && password === contacts[user && password]) {
         res.render('goodlogin');
     } else {
+        res.status(401);
         res.render('faillogin');
     }  
-// res.render('login', {data: {user: contacts[user], password: contacts[password]}});
   });
+
+
+// AUTHENTICATION
+app.use(session({
+    secret: 'I have a secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 7200000, // 2 hours
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    },
+  }));
+
 
 
 //   /**
 //  * Determines if a user with a particular username already exists or not
-//  * @param {string} username
-//  * @returns {Promise<boolean>} whether a user exists or not
 //  */
 // function usernameExists(username) {
 //     return readUsers()
@@ -143,18 +179,6 @@ function addContact(req, res){
 //   }
   
 
-// AUTHENTICATION
-app.use(session({
-    secret: 'this is the secret',
-    resave: false,
-    saveUninitialized: true,
-//     store: new KnexSessionStore({ knex: db }),
-    cookie: {
-      maxAge: 7200000, // 2 hours
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-    },
-  }));
 
 
 

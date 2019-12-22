@@ -16,7 +16,9 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "knex": "^0.20.4",
-    "nodemon": "^2.0.1"
+    "nodemon": "^2.0.1",
+    "path": "^0.12.7",
+    "util": "^0.12.1"
   },
   "keywords": [],
   "author": "Erin Cameron <erincameron11@hotmail.com>",
