@@ -1,20 +1,29 @@
 // from video: https://www.youtube.com/watch?v=6iZiqQZBQJY
 
-// AUTHENTICATION
-//require('dotenv').config({client: 'pg'});
+require('dotenv').config();
 const express = require('express');
-const app = express(); // Create the app
+const app = express();
 const fs = require('fs'); // File System for loading the list of contacts
+const defaultErrorHandler = require('./default-error-handler');
+
+app.use('/static', express.static('static'));
 const session = require('express-session');
 const server = express();
 
 app.set('view engine', 'ejs');
 
-// AUTHENTICATION
-// const KnexSessionStore = require('connect-session-knex')(session);
-// const knex = require('knex');
-// const knexConfig = require('../fs1020-project/node_modules/knex/knex.js');
-// const db = knex(knexConfig);
+// Default error handler should in any of our routes we call next() with an error
+app.use(defaultErrorHandler);
+
+
+
+// LISTEN ON PORT
+// since ports are not always constantly the same number, this is the proper way to set up a port
+let port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
+});
+
 
 
 
@@ -36,29 +45,6 @@ if (exists) {
 
 
 
-// LISTEN ON PORT
-// since ports are not always constantly the same number, this is the proper way to set up a port
-let port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
-});
-
-
-
-
-// THIS IS THE AUTHENTICATION PORTION WE APPARENTLY NEED
-// server.use(session({
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: true,
-//     store: new KnexSessionStore({ knex: db }),
-//     cookie: {
-//       maxAge: 1200000, // 20 minutes
-//       httpOnly: true,
-//       secure: process.env.NODE_ENV === 'production',
-//     },
-//   }));
-
 
 
 /** Fields required: Name, Email, Phone Number - when
@@ -78,28 +64,19 @@ function addContact(req, res){
   let name = req.params.name;
   let email = req.params.email;
   let phone = Number(req.params.phone);
-//   res.render('user', {data: {user: req.params.name, user: req.params.email, user: req.params.phone}});
   let id = ([contacts.length++]); // NEED TO FIX THIS
   // Put it in the object
   contacts[id] = {name, email, phone};
   res.render('user', {data: {name: name, email: email, phone: phone}});
   res.status(201);
   // Let the request know it was sent properly
-  let reply = {
-    status: 'success',
-    name: name,
-    email: email,
-    phone: phone
-  }
-  console.log('adding: ' + JSON.stringify(reply));
+  console.log('adding: ' + JSON.stringify(name + ' ' + email + ' ' + phone));
   // Write a file each time we get a new contact
   let json = JSON.stringify(contacts, null, 2);
   fs.writeFile('src/db.json', json, 'utf8', finished);
   function finished(err) {
     console.log('Finished writing db.json');
     }
-    // Don't send anything back until everything else is done
-    res.send(reply);  
 }
 
 
@@ -113,17 +90,13 @@ function addContact(req, res){
     contacts[id] = {user, password};
     res.status(201);
     res.render('id', {data: {user: user}});
-    let reply = {
-        status: 'success',
-        user: user,
-      }
+    // Let the request know it was sent properly
       console.log('adding: ' + (user + ' and super secret password'));
+    // Write a file each time we get a new contact
       let json = JSON.stringify(contacts, null, 2);
       fs.writeFile('src/db.json', json, 'utf8', finished);
       function finished(err) {
         console.log('Finished writing db.json with new user');
-        // Don't send anything back until everything else is done
-        res.send(reply);
       }
   });
 
@@ -133,21 +106,55 @@ function addContact(req, res){
 
   // WORK ON THIS!!!!!     ROUTE TO LOG A REGISTERED USER IN TO CREATE A SESSION
   app.post('/login', function (req, res) {
-    res.render('login', {data: {}});
+    res.render('login');
 });
 
 
   app.post('/login/:user/:password', function (req, res) {
     let user = req.params.user;
     let password = req.params.password;
-        if(user && password === contacts[user]) {
+        if(user && password === contacts.user) {
         res.render('goodlogin');
     } else {
         res.render('faillogin');
     }  
-res.render('login', {data: {user: contacts[user], password: contacts[password]}});
+// res.render('login', {data: {user: contacts[user], password: contacts[password]}});
   });
 
+
+//   /**
+//  * Determines if a user with a particular username already exists or not
+//  * @param {string} username
+//  * @returns {Promise<boolean>} whether a user exists or not
+//  */
+// function usernameExists(username) {
+//     return readUsers()
+//       .then((users) => {
+//         let exists = false;
+  
+//         users.forEach((user) => {
+//           if (user.username === username) {
+//             exists = true;
+//           }
+//         });
+  
+//         return exists;
+//       });
+//   }
+  
+
+// AUTHENTICATION
+app.use(session({
+    secret: 'this is the secret',
+    resave: false,
+    saveUninitialized: true,
+//     store: new KnexSessionStore({ knex: db }),
+    cookie: {
+      maxAge: 7200000, // 2 hours
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    },
+  }));
 
 
 
@@ -156,12 +163,4 @@ res.render('login', {data: {user: contacts[user], password: contacts[password]}}
 app.get('/allContacts', function (req, res) {
     res.status(202);
     res.render('all', {data: {allContacts: contacts}});
-});
-
-
-
-
-// DEFAULT ERROR HANDLER
-app.use(function (req, res, next, error) {
-    console.error(error.stack);
 });
