@@ -8,17 +8,13 @@ const defaultErrorHandler = require('./default-error-handler');
 const util = require('util');
 let path = require('path');
 
-
-
 app.use('/static', express.static('static'));
 const session = require('express-session');
 const server = express();
 
 app.set('view engine', 'ejs');
-
 // Default error handler should in any of our routes we call next() with an error
 app.use(defaultErrorHandler);
-
 
 
 // LISTEN ON PORT
@@ -27,9 +23,6 @@ let port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
-
-
-
 
 
 // CHECK FIRST TO SEE IF OUR DB EXISTS
@@ -46,9 +39,6 @@ if (exists) {
   console.log('No contacts');
   contacts = {};
 }
-
-
-
 
 
 /** Fields required: Name, Email, Phone Number - when
@@ -82,7 +72,7 @@ app.get('/', function(req, res){
 
 
 
-// ROUTE TO CREATE AN ENTRY WHEN THE USER SUBMITS THEIR FORM (ADDING A NEW CONTACT WITH NAME, EMAIL AND PHONE)
+// ROUTE TO CREATE AN ENTRY WHEN THE USER SUBMITS THEIR FORM (ADDING A NEW CONTACT WITH NAME, EMAIL, PHONE)
 app.post('/user/:name/:email/:phone', addContact);
 // Handle that route
 function addContact(req, res){
@@ -104,6 +94,31 @@ function addContact(req, res){
     }
 }
 
+
+
+// ROUTE TO SEND CONTACT INFORMATION WHEN THE USER SUBMITS THEIR FORM
+app.post('/contact', ContactInput);
+// Handle that route
+function ContactInput(req, res){
+  let name = req.params.name;
+  let email = req.params.email;
+  let phone = req.params.phone;
+  let message = req.params.message;
+  let info = ([contacts.length++]); // NEED TO FIX THIS
+  // Put it in the object
+  contacts[info] = {name, email, phone, message};
+  res.render('contact', 
+  {data: {name: name, email: email, phone: phone, message: message}});
+  res.status(201);
+  // Let the request know it was sent properly
+  console.log('adding: ' + JSON.stringify(name + ' ' + email + ' ' + phone + ' ' + message));
+  // Write a file each time we get a new contact
+  let json = JSON.stringify(contacts, null, 2);
+  fs.writeFile('src/db.json', json, 'utf8', finished);
+  function finished(err) {
+    console.log('Finished writing db.json');
+    }
+}
 
 
   // ROUTE TO CREATE OR REGISTER A USER

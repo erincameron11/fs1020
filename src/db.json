@@ -1,50 +1,13 @@
-[
-  {
-    "name": "Erin",
-    "email": "erincameron11@hotmail.com",
-    "phone": 6476693771
-  },
-  {
-    "name": "Laura",
-    "email": "laurarichards@hotmail.com",
-    "phone": 4167839466
-  },
-  {
-    "name": "Cathy",
-    "email": "ccfraser@sympatico.ca",
-    "phone": 9056687253
-  },
-  {
-    "name": "Fraser",
-    "email": "bossman@gmail.com",
-    "phone": 4165536475
-  },
-  {
-    "name": "Deanna",
-    "email": "drichards45@hotmail.com",
-    "phone": 9054467632
-  },
-  {
-    "user": "erincameron11",
-    "password": "password"
-  },
-  {
-    "name": "Blake",
-    "email": "cameron1@hotmail.com",
-    "phone": 6134568899
-  },
-  {
-    "name": "Tara",
-    "email": "rendezparl@hotmail.com",
-    "phone": 6138987766
-  },
-  {
-    "user": "tomkinsosddsn",
-    "password": "tomlinson77sss"
-  },
-  {
-    "name": "Tara",
-    "email": "rendezparl@hotmail.com",
-    "phone": 6138987
-  }
-]
+{
+  "0": {},
+  "1": {},
+  "2": {},
+  "3": {},
+  "4": {},
+  "5": {},
+  "6": {},
+  "7": {},
+  "8": {},
+  "length": 9,
+  "NaN": {}
+}
